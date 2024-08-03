@@ -5,7 +5,7 @@ import urllib.request
 import urllib.parse
 import os
 
-server_address = "s5bop2hnkp0977-3000.proxy.runpod.net"
+server_address = "COMFYUI_SERVER_URL"
 client_id = str(uuid.uuid4())
 
 def queue_prompt(prompt):
