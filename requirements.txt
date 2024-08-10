@@ -1,2 +1,3 @@
-websocket-client==1.4.2
-Pillow==9.4.0
+requests
+Pillow
+websocket-client
