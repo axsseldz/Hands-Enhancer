@@ -1,7 +1,7 @@
 {
     "18": {
         "inputs": {
-            "image": "image.png",
+            "image": "austin.png",
             "upload": "image"
         },
         "class_type": "LoadImage",
@@ -74,9 +74,9 @@
     },
     "31": {
         "inputs": {
-            "seed": 922361898183550,
-            "steps": 6,
-            "cfg": 1.5,
+            "seed": 57028153068228,
+            "steps": 5,
+            "cfg": 1,
             "sampler_name": "dpmpp_sde",
             "scheduler": "karras",
             "denoise": 0.75,
@@ -104,7 +104,7 @@
     },
     "32": {
         "inputs": {
-            "text": "positive prompt",
+            "text": "prompt",
             "clip": [
                 "34",
                 1
@@ -166,7 +166,7 @@
     },
     "36": {
         "inputs": {
-            "control_net_name": "thibaud_xl_openpose.safetensors"
+            "control_net_name": "diffusers_xl_depth_full.safetensors"
         },
         "class_type": "ControlNetLoader",
         "_meta": {
