@@ -7,7 +7,7 @@ from PIL import Image
 import io
 import websocket
 
-server_address = "URL"
+server_address = "rs2k5p4qmzgxin-3020.proxy.runpod.net"
 
 client_id = str(uuid.uuid4())
 
@@ -105,7 +105,7 @@ files = {
 }
 
 prompt["18"]["inputs"]["image"] = "image.png"
-prompt["32"]["inputs"]["text"] = "<lora:eli_decaso_v0.2:0.9> olivia newton-john, (her hand signing towards the top right side with an open hand:1.2), (overweight:1.3), (40y.o. woman), (looking at the camera:1.3), <lora:add-detail-xl:2>, full body, <lora:cinematic-lighting:2> cinematic lighting, (high-resolution background:1.2), wearing a high-quality white blouse and black jeans, barely smiling, dark background, (real-life moment:1.3), (Fujifilm X-T4, 1/125s, f/4, ISO 800), (natural pose:1.3), masterpiece, high resolution, skin imperfections, photorealistic, DSLR, depth of field, (perfect eyes:1.3)"
+prompt["32"]["inputs"]["text"] = "<lora:austin_reaves_v0.1:0.9> tom holland (looking at the camera:1.3), <lora:add-detail-xl:2>, <lora:cinematic-lighting:2> cinematic lighting, (high-resolution background:1.2), full body, showing the thumbs up, wearing a white shirt and blue jeans, sitting in a bench at the beach, natural light, (real-life moment:1.3), (Fujifilm X-T4, 1/125s, f/4, ISO 800), (natural pose:1.3), masterpiece, high resolution, skin imperfections, photorealistic, DSLR, depth of field, (perfect eyes:1.3)"
 
 def process_images():
     ws = connect_to_websocket()
