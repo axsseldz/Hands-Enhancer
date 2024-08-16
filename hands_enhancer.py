@@ -1,4 +1,4 @@
-import websocket  # NOTE: websocket-client (https://github.com/websocket-client/websocket-client)
+import websocket 
 import uuid
 import json
 import urllib.request
@@ -12,8 +12,38 @@ from pathlib import Path
 server_address = "URL"
 client_id = str(uuid.uuid4())
 
-
 headers = {'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0'}
+
+
+def upload_img(image_path):
+    """ Upload image to the path workspace/ComfyUI/input """
+
+
+    url = f"https://{server_address}/upload/image"
+    
+    if not os.path.isfile(image_path):
+        print(f"File not found: {image_path}")
+        return None
+
+    with open(image_path, 'rb') as img_file:
+        files = {
+            'image': (os.path.basename(image_path), img_file, 'image/png')
+        }
+        data = {
+            'type': 'input', 
+            'subfolder': ''  
+        }
+        
+        response = requests.post(url, data=data, files=files)
+        
+        if response.status_code == 200:
+            print("Image uploaded successfully.")
+            return response.json() 
+        else:
+            print(f"HTTP Error: {response.status_code} - {response.reason}")
+            print(f"Response: {response.text}")
+            response.raise_for_status()
+
 
 def queue_prompt(prompt):
     p = {"prompt": prompt, "client_id": client_id}
@@ -74,20 +104,24 @@ with open("hands_wf.json", "r", encoding="utf-8") as f:
 
 jsonwf = json.loads(workflow_jsondata)
 
-jsonwf["32"]["inputs"]["text"] = "<lora:austin_reaves_v0.1:0.9> tom holland (looking at the camera:1.3), <lora:add-detail-xl:2>, <lora:cinematic-lighting:2> cinematic lighting, (high-resolution background:1.2), full body, showing the thumbs up, wearing a white shirt and blue jeans, sitting in a bench at the beach, natural light, (real-life moment:1.3), (Fujifilm X-T4, 1/125s, f/4, ISO 800), (natural pose:1.3), masterpiece, high resolution, skin imperfections, photorealistic, DSLR, depth of field, (perfect eyes:1.3)"
-jsonwf["31"]["inputs"]["seed"] = 6
-
 ws_protocol = "wss"  
 ws_url = "{}://{}/ws?clientId={}".format(ws_protocol, server_address, client_id)
-
 
 print("Connecting to WebSocket URL:", ws_url)
 
 ws = websocket.WebSocket()
 ws.connect(ws_url)  
 
-images = get_images(ws, jsonwf)
 
+# Upload source image
+upload_response = upload_img("./images/man.png")
+
+jsonwf["18"]["inputs"]["image"] = "man.png" # this name needs to be changed according the img just uploaded above
+jsonwf["32"]["inputs"]["text"] = "man waving with both hands" # prompt used to generate the source image
+jsonwf["31"]["inputs"]["seed"] = 5
+
+# Get output images
+images = get_images(ws, jsonwf)
 
 os.makedirs("./output_imgs", exist_ok=True)
 image_counter = 1
